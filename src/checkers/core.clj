@@ -7,6 +7,14 @@
   (println "Hello, World!"))
 
 (defn mainloop
+  ;; table state
+  ;; gets a position
+  ;; check if piece is able to move
+  ;; returns a hashset of valid piece moves
+  ;; get a move and create new state
+  ;; returns current table state
+  ;; check if someone won
+  ;; get another player position if no one won
   []
   "todo")
 
@@ -65,21 +73,24 @@
   ;; pega uma string no formato "<letra><número>"
   ;; ex: a1 b4 c2 d7
   [square]
-  (let [letter (first square)
+  (let
+      [
+        letter (first square)
         index (subs square 1 2)
         int-letter (int letter)
         int-index (Integer/parseInt index)
-        make-key #(get-key-from-string (str %1 %2)) ;; pega a %1 letra e o %2 número
-        ]
+        make-key #(get-key-from-string (str %1 %2)) ;; pega a %1 letra e o %2 número       
+       ]
     ;; código ascii da letra em int a == 97
     (def lower-letter (if (> (dec int-letter) 96)
                         (char (dec int-letter))
+                        ;; FIXME tá horrível isso daqui
                         \j))
     (def upper-letter (char (inc int-letter)))
     ;; index
     (def lower-index (dec int-index))
     (def upper-index (inc int-index))
-    (list
+    (hash-set
      (make-key lower-letter lower-index)
      (make-key lower-letter upper-index)
      (make-key upper-letter upper-index)
@@ -88,23 +99,36 @@
 
 (list-adjacent-squares "d3")
 
-(defn check-adjacent-squares-for-pieces
+(defn hash-free-adjacent-squares
   [square]
   ;; pegar o estado atual do tabuleiro
-  (map (fn [x] (get initial-table-state x)) (list-adjacent-squares square))
-  )
+  ;; adicionar algo para checar peças inimigas capturáveis
+  (filter (fn [x] (= (get initial-table-state x) 0))
+          (list-adjacent-squares square)))
+(check-adjacent-squares-for-pieces "h2")
+(list-adjacent-squares "h2")
 
-(check-adjacent-squares-for-pieces "b8")
 (defn list-available-pieces
   [x]
   (if (= x "w")
     "white pieces"
     "black pieces"))
 
-
 (defn list-legal-moves
   ;; start with regular stuff
   ;; then implement capturing
   [x] ;; gets a square in 'a1' format
-  (let [adjacent (list-adjacent-squares x)]
-    ))
+  (let [
+        free (hash-free-adjacent-squares x)
+        ]
+    free))
+
+(list-legal-moves "a3")
+
+(defn move-piece
+  ;; gets a piece-pos and a new-pos in key format
+  [piece-pos new-pos]
+  (let [
+        piece-color (piece-pos initial-table-state)
+        ]
+  (update (update initial-table-state new-pos piece-color) piece-pos 0)))
