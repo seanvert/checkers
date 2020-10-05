@@ -1,4 +1,5 @@
 (ns checkers.core
+  (:use [clojure.set :only (difference)])
   (:gen-class))
 
 (defn -main
@@ -94,19 +95,20 @@
                        (inc int-index)
                        false))
     ;TODO: depois olhar se existe uma função que faz produtos cartesianos
-    (hash-set
-     (if (and lower-letter lower-index)
-       (make-key lower-letter lower-index))
+    ;; (difference #{nil}
+                (hash-set
+                 (if (and lower-letter lower-index)
+                   (make-key lower-letter lower-index))
 
-     (if (and lower-letter upper-index)
-       (make-key lower-letter upper-index))
+                 (if (and lower-letter upper-index)
+                   (make-key lower-letter upper-index))
 
-     (if (and upper-letter upper-index)
-       (make-key upper-letter upper-index))
+                 (if (and upper-letter upper-index)
+                   (make-key upper-letter upper-index))
 
-     (if (and upper-letter lower-index)
-       (make-key upper-letter lower-index))
-     )))
+                 (if (and upper-letter lower-index)
+                   (make-key upper-letter lower-index)))))
+
 
 
 
