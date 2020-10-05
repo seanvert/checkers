@@ -2,11 +2,6 @@
   (:gen-class))
 
 (defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
-
-(defn mainloop
   ;; table state
   ;; gets a position
   ;; check if piece is able to move
@@ -15,7 +10,7 @@
   ;; returns current table state
   ;; check if someone won
   ;; get another player position if no one won
-  []
+  [& args]
   "todo")
 
 (def initial-table-state
@@ -97,16 +92,12 @@
      (make-key upper-letter lower-index)
      )))
 
-(list-adjacent-squares "d3")
-
 (defn hash-free-adjacent-squares
   [square]
   ;; pegar o estado atual do tabuleiro
   ;; adicionar algo para checar peças inimigas capturáveis
   (filter (fn [x] (= (get initial-table-state x) 0))
           (list-adjacent-squares square)))
-(check-adjacent-squares-for-pieces "h2")
-(list-adjacent-squares "h2")
 
 (defn list-available-pieces
   [x]
@@ -124,9 +115,11 @@
     free))
 
 (list-legal-moves "a3")
+(list-legal-moves "a1")
 
 (defn move-piece
   ;; gets a piece-pos and a new-pos in key format
+  ;; this should be ran only if the moves are legal
   [piece-pos new-pos]
   (let [
         piece-color (piece-pos initial-table-state)
