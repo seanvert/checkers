@@ -1,11 +1,3 @@
-* TODO tests [[file:~/Desktop/projetos/checkers/src/checkers/core.clj::int-index (Integer/parseInt index)][função]]
-  :PROPERTIES:
-  :CREATED: [2020-10-05 seg 05:22]
-  :END:
-* TODO tirar aquele pedaço com casas fora do tabuleiro [[file:~/Desktop/projetos/checkers/src/checkers/core.clj::\j))][pedaço com casa fora do tabuleiro]]
-  :PROPERTIES:
-  :CREATED: [2020-10-05 seg 05:24]
-  :END:
 # checkers
 
 FIXME: description
@@ -50,3 +42,5 @@ Public License, v. 2.0 are satisfied: GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or (at your
 option) any later version, with the GNU Classpath Exception which is available
 at https://www.gnu.org/software/classpath/license.html.
+
+* Project Todo
