@@ -66,6 +66,7 @@
 
 (defn list-adjacent-squares
   ;; pega uma string no formato "<letra><número>"
+  ;TODO: tirar o nil do hash de saída
   ;; ex: a1 b4 c2 d7
   [square]
   (let
@@ -74,23 +75,40 @@
         index (subs square 1 2)
         int-letter (int letter)
         int-index (Integer/parseInt index)
-        make-key #(get-key-from-string (str %1 %2)) ;; pega a %1 letra e o %2 número       
+        make-key #(get-key-from-string (str %1 %2)) ;; pega a %1 letra e o %2 número
        ]
     ;; código ascii da letra em int a == 97
     (def lower-letter (if (> (dec int-letter) 96)
                         (char (dec int-letter))
-                        ;; FIXME tá horrível isso daqui
-                        \j))
-    (def upper-letter (char (inc int-letter)))
+                        false))
+
+    (def upper-letter (if (> (inc int-letter) 104)
+                        false
+                        (char (inc int-letter))))
     ;; index
-    (def lower-index (dec int-index))
-    (def upper-index (inc int-index))
+    (def lower-index (if (> (dec int-index) 0)
+                       (dec int-index)
+                       false))
+
+    (def upper-index (if (<= (inc int-index) 8)
+                       (inc int-index)
+                       false))
+    ;TODO: depois olhar se existe uma função que faz produtos cartesianos
     (hash-set
-     (make-key lower-letter lower-index)
-     (make-key lower-letter upper-index)
-     (make-key upper-letter upper-index)
-     (make-key upper-letter lower-index)
+     (if (and lower-letter lower-index)
+       (make-key lower-letter lower-index))
+
+     (if (and lower-letter upper-index)
+       (make-key lower-letter upper-index))
+
+     (if (and upper-letter upper-index)
+       (make-key upper-letter upper-index))
+
+     (if (and upper-letter lower-index)
+       (make-key upper-letter lower-index))
      )))
+
+
 
 (defn hash-free-adjacent-squares
   [square]
@@ -113,9 +131,6 @@
         free (hash-free-adjacent-squares x)
         ]
     free))
-
-(list-legal-moves "a3")
-(list-legal-moves "a1")
 
 (defn move-piece
   ;; gets a piece-pos and a new-pos in key format

@@ -13,7 +13,7 @@
 (deftest adjacent-squares-test
   (testing "Teste de casas adjacentes"
     (is (= (list-adjacent-squares "c3") (hash-set :d2 :b2 :d4 :b4)))
-    (is (= (list-adjacent-squares "h2") (hash-set :i3 :g3 :i1 :g1)))
+    (is (= (list-adjacent-squares "h2") (hash-set :g3 :g1)))
     ))
 
 (deftest move-piece-test
