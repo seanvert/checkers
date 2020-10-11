@@ -12,13 +12,13 @@
 
 (deftest adjacent-squares-test
   (testing "Teste de casas adjacentes"
-    (is (= (list-adjacent-squares "c3") (hash-set :d2 :b2 :d4 :b4)))
-    (is (= (list-adjacent-squares "h2") (hash-set :g3 :g1)))
+    (is (= (list-adjacent-squares "c3") (list :b2 :b4 :d4 :d2)))
+    (is (= (list-adjacent-squares "h2") (list :g1 :g3)))
     ))
 
 (deftest move-piece-test
   (testing "Teste do movimento das peças um caso de teste"
-    (is (= (move-piece :a3 :b4)
+    (is (= (move-piece initial-table-state :a3 :b4)
            {
             ;; white pieces
             :a1 1
@@ -77,18 +77,18 @@
     (is (= (list-legal-moves "g7") '()))))
 
 (deftest hash-free-adjacent-squares-test
-  (testing "Teste da função que retorna o hash das casas adjacentes livres"
-    (is (= (hash-free-adjacent-squares "h2") '()))
-    (is (= (hash-free-adjacent-squares "g3") '(:h4 :f4)))
-    (is (= (hash-free-adjacent-squares "f6") '(:e5 :g5)))
-    (is (= (hash-free-adjacent-squares "c3") '(:d4 :b4)))))
+  (testing "Teste da função que retorna as casas adjacentes livres"
+    (is (= (free-adjacent-squares initial-table-state "h2") '()))
+    (is (= (free-adjacent-squares initial-table-state "g3") '(:f4 :h4)))
+    (is (= (free-adjacent-squares initial-table-state "f6") '(:e5 :g5)))
+    (is (= (free-adjacent-squares initial-table-state "c3") '(:b4 :d4)))))
 
 (deftest list-adjacent-squares-test
   (testing "Teste da função que retorna o hash das casas adjacentes"
-    (is (= (list-adjacent-squares "a1") #{:b2}))
-    (is (= (list-adjacent-squares "h2") #{:g3 :g1}))
-    (is (= (list-adjacent-squares "a7") #{:b8 :b6}))
-    (is (= (list-adjacent-squares "h8") #{:g7}))))
+    (is (= (list-adjacent-squares "a1") '(:b2)))
+    (is (= (list-adjacent-squares "h2") '(:g1 :g3)))
+    (is (= (list-adjacent-squares "a7") '(:b8 :b6)))
+    (is (= (list-adjacent-squares "h8") '(:g7)))))
 
 (deftest get-key-from-string-test
   (testing "Teste da função que monta keys"
@@ -99,4 +99,9 @@
     (is (= (get-key-from-string "g3") :g3))
     (is (= (get-key-from-string "c7") :c7))
     (is (= (get-key-from-string "f6") :f6))
+    ))
+
+(deftest someone-won-test
+  (testing "Teste para ver se alguém venceu o jogo"
+    (is (= (someone-won initial-table-state) "todo"))
     ))

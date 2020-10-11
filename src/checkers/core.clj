@@ -2,18 +2,7 @@
   (:use [clojure.set :only (difference)])
   (:gen-class))
 
-(defn -main
-  ;; table state
-  ;; gets a position
-  ;; check if piece is able to move
-  ;; returns a hashset of valid piece moves
-  ;; get a move and create new state
-  ;; returns current table state
-  ;; check if someone won
-  ;; get another player position if no one won
-  ;; calculate score
-  [& args]
-  "todo")
+
 
 (def initial-table-state
   {
@@ -58,14 +47,23 @@
   [entry]
   (read-string (str ":" entry)))
 
+(defn make-key
+  ;; pega a x LETRA e o y NÙMERO
+  [x y]
+  (get-key-from-string (str x y)))
 
 ;; a notação usada nas funções será a mesma do xadrez, no formato:
 ;; <letra><número>
 ;; functions will use the same notation as chess,
 ;; <letter><number>
 
+(defmacro item-maker
+  [letter index]
+  `(if (and ~letter ~index)
+     (make-key ~letter ~index)))
+
 (defn list-adjacent-squares
-  ;; pega uma string no formato "<letra><número>"
+  ;; pega uma STRING no formato "<letra><número>"
   ;TODO: tirar o nil do hash de saída
   ;; ex: a1 b4 c2 d7
   [square]
@@ -75,7 +73,6 @@
         index (subs square 1 2)
         int-letter (int letter)
         int-index (Integer/parseInt index)
-        make-key #(get-key-from-string (str %1 %2)) ;; pega a %1 letra e o %2 número
        ]
     ;; código ascii da letra em int a == 97
     (def lower-letter (if (> (dec int-letter) 96)
@@ -95,24 +92,19 @@
                        false))
     ;TODO: depois olhar se existe uma função que faz produtos cartesianos
     ;; (difference #{nil}
-                (hash-set
-                 (if (and lower-letter lower-index)
-                   (make-key lower-letter lower-index))
 
-                 (if (and lower-letter upper-index)
-                   (make-key lower-letter upper-index))
+    (filter #(not (nil? %)) (list
+                             (item-maker lower-letter lower-index)
+                             (item-maker lower-letter upper-index)
+                             (item-maker upper-letter upper-index)
+                             (item-maker upper-letter lower-index)))))
 
-                 (if (and upper-letter upper-index)
-                   (make-key upper-letter upper-index))
-
-                 (if (and upper-letter lower-index)
-                   (make-key upper-letter lower-index)))))
-
-(defn hash-free-adjacent-squares
-  [square]
+;TODO: trocar o nome dessa função aqui e nos tests
+(defn free-adjacent-squares
+  [square state]
   ;; pegar o estado atual do tabuleiro
   ;; adicionar algo para checar peças inimigas capturáveis
-  (filter (fn [x] (= (get initial-table-state x) 0))
+  (filter (fn [x] (= (get state x) 0))
           (list-adjacent-squares square)))
 
 (defn list-available-pieces
@@ -124,21 +116,41 @@
 (defn list-legal-moves
   ;; start with regular stuff
   ;; then implement capturing
-  [x] ;; gets a square in 'a1' format
+  [x state] ;; gets a square in 'a1' format
   (let [
-        free (hash-free-adjacent-squares x)
+        free (free-adjacent-squares state x)
         ]
     free))
 
 (defn move-piece
   ;; gets a piece-pos and a new-pos in key format
-  ;; this should be ran only if the moves are legal
-  [piece-pos new-pos]
+  ;; this should run only if the moves are legal
+  [state piece-pos new-pos]
   (let [
-        piece-color (piece-pos initial-table-state)
+        piece-color (piece-pos state)
+        inc-prop (if (= piece-color 1)
+                   inc
+                   #(+ % 2))
+        dec-prop (if (= piece-color 1)
+                   dec
+                   #(- % 2))
         ]
-  (update (update initial-table-state new-pos piece-color) piece-pos 0)))
+  (update (update state new-pos inc-prop) piece-pos dec-prop)))
 
 (defn someone-won
   [state]
-  )
+  "todo")
+
+(defn -main
+  [in-state turn] ;; state
+  (let [
+        move-from (get-key-from-string (read-line))
+        move-to (get-key-from-string (read-line))
+        out-state (move-piece in-state move-from move-to)
+        ]
+    (do (print out-state)
+      (-main out-state (inc turn)))
+))
+  ;; TODO check if someone won
+  ;; get another player position if no one won
+  ;; calculate score
