@@ -11,6 +11,7 @@
   ;; returns current table state
   ;; check if someone won
   ;; get another player position if no one won
+  ;; calculate score
   [& args]
   "todo")
 
@@ -57,13 +58,11 @@
   [entry]
   (read-string (str ":" entry)))
 
-;; padrão que eu vou seguir para montar o esquema dos quadrados
-;; adjacentes
-;; <letra><dígito>
-;; casas adjacentes:
-;; <letra + 1><número + 1>
-;; <letra><número +- 1>
-;; <letra - 1><número - 1>
+
+;; a notação usada nas funções será a mesma do xadrez, no formato:
+;; <letra><número>
+;; functions will use the same notation as chess,
+;; <letter><number>
 
 (defn list-adjacent-squares
   ;; pega uma string no formato "<letra><número>"
@@ -109,9 +108,6 @@
                  (if (and upper-letter lower-index)
                    (make-key upper-letter lower-index)))))
 
-
-
-
 (defn hash-free-adjacent-squares
   [square]
   ;; pegar o estado atual do tabuleiro
@@ -142,3 +138,7 @@
         piece-color (piece-pos initial-table-state)
         ]
   (update (update initial-table-state new-pos piece-color) piece-pos 0)))
+
+(defn someone-won
+  [state]
+  )

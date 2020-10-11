@@ -8,7 +8,7 @@
 
 (deftest state-test
   (testing "Teste do estado do tabuleiro stub"
-    (is (= (mainloop) "todo"))))
+    (is (= (-main) "todo"))))
 
 (deftest adjacent-squares-test
   (testing "Teste de casas adjacentes"
@@ -59,47 +59,44 @@
 
 (deftest list-legal-moves-test
   (testing "Teste da função que lista os movimentos legais"
-    (is (= (list-legal-moves "a1") '())
-        (= (list-legal-moves "c1") '())
-        (= (list-legal-moves "e1") '())
-        (= (list-legal-moves "g1") '())
-        (= (list-legal-moves "b2") '())
-        (= (list-legal-moves "d2") '())
-        (= (list-legal-moves "f2") '())
-        (= (list-legal-moves "h2") '())
-        (= (list-legal-moves "b8") '())
-        (= (list-legal-moves "d8") '())
-        (= (list-legal-moves "f8") '())
-        (= (list-legal-moves "h8") '())
-        (= (list-legal-moves "a7") '())
-        (= (list-legal-moves "c7") '())
-        (= (list-legal-moves "e7") '())
-        (= (list-legal-moves "g7") '()))))
+    (is (= (list-legal-moves "a1") '()))
+    (is (= (list-legal-moves "c1") '()))
+    (is (= (list-legal-moves "e1") '()))
+    (is (= (list-legal-moves "g1") '()))
+    (is (= (list-legal-moves "b2") '()))
+    (is (= (list-legal-moves "d2") '()))
+    (is (= (list-legal-moves "f2") '()))
+    (is (= (list-legal-moves "h2") '()))
+    (is (= (list-legal-moves "b8") '()))
+    (is (= (list-legal-moves "d8") '()))
+    (is (= (list-legal-moves "f8") '()))
+    (is (= (list-legal-moves "h8") '()))
+    (is (= (list-legal-moves "a7") '()))
+    (is (= (list-legal-moves "c7") '()))
+    (is (= (list-legal-moves "e7") '()))
+    (is (= (list-legal-moves "g7") '()))))
 
 (deftest hash-free-adjacent-squares-test
   (testing "Teste da função que retorna o hash das casas adjacentes livres"
-    (is (= (hash-free-adjacent-squares "h2") '())
-        (= (hash-free-adjacent-squares "g3") '(:h4 :f4))
-        (= (hash-free-adjacent-squares "f6") '(:e5 :g5))
-        (= (hash-free-adjacent-squares "c3") '(:d4 :b4))
-        )
-    ))
+    (is (= (hash-free-adjacent-squares "h2") '()))
+    (is (= (hash-free-adjacent-squares "g3") '(:h4 :f4)))
+    (is (= (hash-free-adjacent-squares "f6") '(:e5 :g5)))
+    (is (= (hash-free-adjacent-squares "c3") '(:d4 :b4)))))
 
 (deftest list-adjacent-squares-test
   (testing "Teste da função que retorna o hash das casas adjacentes"
-    (is (= (list-adjacent-squares "a1") #{:b2})
-        (= (list-adjacent-squares "h2") #{:g3 :g1})
-        (= (list-adjacent-squares "a7") #{:b8 :b6})
-        (= (list-adjacent-squares "h8") #{:g7})
-        )))
+    (is (= (list-adjacent-squares "a1") #{:b2}))
+    (is (= (list-adjacent-squares "h2") #{:g3 :g1}))
+    (is (= (list-adjacent-squares "a7") #{:b8 :b6}))
+    (is (= (list-adjacent-squares "h8") #{:g7}))))
 
 (deftest get-key-from-string-test
   (testing "Teste da função que monta keys"
-    (is (= (get-key-from-string "a1") :a1)
-        (= (get-key-from-string "a7") :a7)
-        (= (get-key-from-string "h8") :h8)
-        (= (get-key-from-string "f2") :f2)
-        (= (get-key-from-string "g3") :g3)
-        (= (get-key-from-string "c7") :c7)
-        (= (get-key-from-string "f6") :f6)
-        )))
+    (is (= (get-key-from-string "a1") :a1))
+    (is (= (get-key-from-string "a7") :a7))
+    (is (= (get-key-from-string "h8") :h8))
+    (is (= (get-key-from-string "f2") :f2))
+    (is (= (get-key-from-string "g3") :g3))
+    (is (= (get-key-from-string "c7") :c7))
+    (is (= (get-key-from-string "f6") :f6))
+    ))

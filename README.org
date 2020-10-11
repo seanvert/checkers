@@ -44,3 +44,7 @@ option) any later version, with the GNU Classpath Exception which is available
 at https://www.gnu.org/software/classpath/license.html.
 
 * Project Todo
+* TODO implement capturing [[file:~/Desktop/projetos/checkers/src/checkers/core.clj::(defn list-legal-moves][legal moves]]
+  :PROPERTIES:
+  :CREATED: [2020-10-05 seg 17:08]
+  :END:
