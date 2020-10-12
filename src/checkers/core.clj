@@ -136,8 +136,17 @@
   [state]
   "todo")
 
+
 (defn -main
   [in-state turn] ;; state
+  (let [
+        color-turn (if (= (mod turn 2) 0)
+               "black" ;; black turn
+               "white") ;; white turn
+        ]
+
+    )
+
   (let [
         move-from (get-key-from-string (read-line))
         move-to (get-key-from-string (read-line))
@@ -146,6 +155,20 @@
     (do (print out-state))
     ;; (-main out-state (inc turn)))
     ))
-  ;; TODO check if someone won
-  ;; get another player position if no one won
-  ;; calculate score
+
+(defn get-move-input [
+                      color ;; this is going to be either 'black' or 'white'
+                      ]
+  (loop [square (read-line)]
+    ;; TODO make a macro out of this to use it on the white case too
+    (if (and (= color "black")
+             (= 2 ((get-key-from-string square) initial-table-state)))
+      (print (list-legal-moves initial-table-state square))
+      (recur (read-line))
+      )))
+
+;; DONE check turns
+;; DONE validate entries and check for legal moves
+;; TODO check if someone won
+;; get another player position if no one won
+;; calculate score
