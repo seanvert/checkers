@@ -116,7 +116,6 @@
         ]
     free))
 
-
 (defn move-piece
   ;; gets a piece-pos and a new-pos in key format
   ;; this should run only if the moves are legal
@@ -136,15 +135,34 @@
   [state]
   "todo")
 
+(defn get-move-input [color state]
+  (let [
+        current-color-code (if (= color "black")
+                             2
+                             1)
+        ]
+  (loop [square (read-line)]
+    (if (= current-color-code
+           ;; piece color of given square
+           ((get-key-from-string square) state))
+      (let [legal-moves (list-legal-moves initial-table-state square)]
+        (if (empty? legal-moves)
+          (recur (read-line))
+          (print legal-moves)))
+      (recur (read-line))))
+    ))
+
+;; (get-move-input "black" initial-table-state)
+;; (get-move-input "white" initial-table-state)
 
 (defn -main
   [in-state turn] ;; state
   (let [
         color-turn (if (= (mod turn 2) 0)
-               "black" ;; black turn
-               "white") ;; white turn
+                     "black"
+                     "white")
         ]
-
+    (get-move-input color-turn in-state)
     )
 
   (let [
@@ -153,19 +171,8 @@
         out-state (move-piece in-state move-from move-to)
         ]
     (do (print out-state))
-    ;; (-main out-state (inc turn)))
+    ;; TODO montar isso com o loop/recur pq a performance fica melhor
     ))
-
-(defn get-move-input [
-                      color ;; this is going to be either 'black' or 'white'
-                      ]
-  (loop [square (read-line)]
-    ;; TODO make a macro out of this to use it on the white case too
-    (if (and (= color "black")
-             (= 2 ((get-key-from-string square) initial-table-state)))
-      (print (list-legal-moves initial-table-state square))
-      (recur (read-line))
-      )))
 
 ;; DONE check turns
 ;; DONE validate entries and check for legal moves
