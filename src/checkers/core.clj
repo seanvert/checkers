@@ -2,8 +2,6 @@
   (:use [clojure.set :only (difference)])
   (:gen-class))
 
-
-
 (def initial-table-state
   {
    ;; white pieces
@@ -64,7 +62,6 @@
 
 (defn list-adjacent-squares
   ;; pega uma STRING no formato "<letra><número>"
-  ;TODO: tirar o nil do hash de saída
   ;; ex: a1 b4 c2 d7
   [square]
   (let
@@ -91,17 +88,14 @@
                        (inc int-index)
                        false))
     ;TODO: depois olhar se existe uma função que faz produtos cartesianos
-    ;; (difference #{nil}
-
     (filter #(not (nil? %)) (list
                              (item-maker lower-letter lower-index)
                              (item-maker lower-letter upper-index)
                              (item-maker upper-letter upper-index)
                              (item-maker upper-letter lower-index)))))
 
-;TODO: trocar o nome dessa função aqui e nos tests
 (defn free-adjacent-squares
-  [square state]
+  [state square]
   ;; pegar o estado atual do tabuleiro
   ;; adicionar algo para checar peças inimigas capturáveis
   (filter (fn [x] (= (get state x) 0))
@@ -116,11 +110,12 @@
 (defn list-legal-moves
   ;; start with regular stuff
   ;; then implement capturing
-  [x state] ;; gets a square in 'a1' format
+  [state x] ;; gets a square in 'a1' format
   (let [
         free (free-adjacent-squares state x)
         ]
     free))
+
 
 (defn move-piece
   ;; gets a piece-pos and a new-pos in key format
@@ -148,9 +143,9 @@
         move-to (get-key-from-string (read-line))
         out-state (move-piece in-state move-from move-to)
         ]
-    (do (print out-state)
-      (-main out-state (inc turn)))
-))
+    (do (print out-state))
+    ;; (-main out-state (inc turn)))
+    ))
   ;; TODO check if someone won
   ;; get another player position if no one won
   ;; calculate score

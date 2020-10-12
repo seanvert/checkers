@@ -2,13 +2,11 @@
   (:require [clojure.test :refer :all]
             [checkers.core :refer :all]))
 
-(deftest mov-test
-  (testing "Teste dos movimentos possíveis stub"
-    (is (= (list-legal-moves "a3") '(:b4)))))
-
-(deftest state-test
-  (testing "Teste do estado do tabuleiro stub"
-    (is (= (-main) "todo"))))
+;; FIXME esse with-in-str parece que não funciona com let expressions
+;; depois preciso ver algum outro jeito para testar isso
+;; (deftest state-test
+;;   (testing "Teste do estado do tabuleiro stub"
+;;     (is (= (with-in-str "a1" (-main initial-table-state 0))) "todo"))))
 
 (deftest adjacent-squares-test
   (testing "Teste de casas adjacentes"
@@ -59,24 +57,24 @@
 
 (deftest list-legal-moves-test
   (testing "Teste da função que lista os movimentos legais"
-    (is (= (list-legal-moves "a1") '()))
-    (is (= (list-legal-moves "c1") '()))
-    (is (= (list-legal-moves "e1") '()))
-    (is (= (list-legal-moves "g1") '()))
-    (is (= (list-legal-moves "b2") '()))
-    (is (= (list-legal-moves "d2") '()))
-    (is (= (list-legal-moves "f2") '()))
-    (is (= (list-legal-moves "h2") '()))
-    (is (= (list-legal-moves "b8") '()))
-    (is (= (list-legal-moves "d8") '()))
-    (is (= (list-legal-moves "f8") '()))
-    (is (= (list-legal-moves "h8") '()))
-    (is (= (list-legal-moves "a7") '()))
-    (is (= (list-legal-moves "c7") '()))
-    (is (= (list-legal-moves "e7") '()))
-    (is (= (list-legal-moves "g7") '()))))
+    (is (= (list-legal-moves initial-table-state "a1") '()))
+    (is (= (list-legal-moves initial-table-state "c1") '()))
+    (is (= (list-legal-moves initial-table-state "e1") '()))
+    (is (= (list-legal-moves initial-table-state "g1") '()))
+    (is (= (list-legal-moves initial-table-state "b2") '()))
+    (is (= (list-legal-moves initial-table-state "d2") '()))
+    (is (= (list-legal-moves initial-table-state "f2") '()))
+    (is (= (list-legal-moves initial-table-state "h2") '()))
+    (is (= (list-legal-moves initial-table-state "b8") '()))
+    (is (= (list-legal-moves initial-table-state "d8") '()))
+    (is (= (list-legal-moves initial-table-state "f8") '()))
+    (is (= (list-legal-moves initial-table-state "h8") '()))
+    (is (= (list-legal-moves initial-table-state "a7") '()))
+    (is (= (list-legal-moves initial-table-state "c7") '()))
+    (is (= (list-legal-moves initial-table-state "e7") '()))
+    (is (= (list-legal-moves initial-table-state "g7") '()))))
 
-(deftest hash-free-adjacent-squares-test
+(deftest free-adjacent-squares-test
   (testing "Teste da função que retorna as casas adjacentes livres"
     (is (= (free-adjacent-squares initial-table-state "h2") '()))
     (is (= (free-adjacent-squares initial-table-state "g3") '(:f4 :h4)))
