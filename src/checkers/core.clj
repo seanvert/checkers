@@ -95,21 +95,16 @@
   [state]
   "todo")
 
- ;; redundante
+
 (defn color-turn [turn]
   (if (= (mod turn 2) 0)
-    "black"
-    "white"))
-;; redundante
-(defn current-color-code [color]
-  (if (= color "black")
     2
     1))
 
-(defn get-move-input [color state]
+(defn get-move-input [current-move-code state]
   (loop [square (read-line)]
     ;; checa se a peça é do jogador atual
-    (if (= (current-color-code color)
+    (if (= current-move-code
            ;; cor da peça na casa do estado do tabuleiro
            ((get-key-from-string square) state))
       (let
@@ -121,23 +116,31 @@
 
 (defn select-move-from-list [list]
   (print list)
+  (print "\n")
   (loop [move (Integer/parseInt (read-line))]
     (if (< move (count list))
       (nth list move)
-      (recur (read-line)))))
+      (recur (Integer/parseInt (read-line))))))
 
 (defn -main
   []
   (loop
       [state initial-table-state
        turn 0]
+    (print state)
+    (print "\n")
+    (print (color-turn turn))
     (let
-        [move (get-move-input (color-turn turn) state)
+        [current-move-code (color-turn turn)
+         move (get-move-input current-move-code state)
          piece-to-be-moved (get-key-from-string (first move))
          available-moves (second move)
          new-pos (select-move-from-list available-moves)
-         new-state (move-piece state piece-to-be-moved new-pos)]
-      (recur new-state (inc turn)))))
+         new-state (move-piece state piece-to-be-moved new-pos)
+         finished? false]
+      (if finished?
+        (print "end todo")
+        (recur new-state (inc turn))))))
 
 ;; DONE check turns
 ;; DONE validate entries and check for legal moves
