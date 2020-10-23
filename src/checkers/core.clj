@@ -116,19 +116,28 @@
           [legal-moves (list-legal-moves state square)]
         (if (empty? legal-moves)
           (recur (read-line))
-          (print legal-moves))) ;; chamar uma segunda função
+          (list square legal-moves)))
+      (recur (read-line)))))
+
+(defn select-move-from-list [list]
+  (print list)
+  (loop [move (Integer/parseInt (read-line))]
+    (if (< move (count list))
+      (nth list move)
       (recur (read-line)))))
 
 (defn -main
-  ;; TODO montar isso com o loop/recur pq a performance fica melhor
-  [in-state turn] ;; state
+  []
   (loop
       [state initial-table-state
        turn 0]
-    (get-move-input (color-turn turn) state)
-    (recur initial-table-state (inc turn))))
-
-
+    (let
+        [move (get-move-input (color-turn turn) state)
+         piece-to-be-moved (get-key-from-string (first move))
+         available-moves (second move)
+         new-pos (select-move-from-list available-moves)
+         new-state (move-piece state piece-to-be-moved new-pos)]
+      (recur new-state (inc turn)))))
 
 ;; DONE check turns
 ;; DONE validate entries and check for legal moves
