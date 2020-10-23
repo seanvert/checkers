@@ -1,52 +1,17 @@
 (ns checkers.core
-  (:use [clojure.set :only (difference)])
+  (:require [clojure.set :only (difference)])
   (:gen-class))
 
-(def initial-table-state
-  {
-   ;; white pieces
-   :a1 1
-   :b2 1
-   :c1 1
-   :d2 1
-   :e1 1
-   :f2 1
-   :g1 1
-   :h2 1
-   :a3 1
-   :c3 1
-   :e3 1
-   :g3 1
-   ;; empty squares
-   :a5 0
-   :b4 0
-   :c5 0
-   :d4 0
-   :e5 0
-   :f4 0
-   :g5 0
-   :h4 0
-   ;; black pieces
-   :a7 2
-   :b8 2
-   :b6 2
-   :c7 2
-   :d8 2
-   :d6 2
-   :e7 2
-   :f8 2
-   :f6 2
-   :g7 2
-   :h8 2
-   :h6 2
-   })
+;; estado inicial do tabuleiro
+(load "state")
+
 
 (defn get-key-from-string
   [entry]
   (read-string (str ":" entry)))
 
 (defn make-key
-  ;; pega a x LETRA e o y NÙMERO
+  ;; pega a x LETRA e o y NÙMERO e retorna uma key de hash
   [x y]
   (get-key-from-string (str x y)))
 
@@ -65,12 +30,10 @@
   ;; ex: a1 b4 c2 d7
   [square]
   (let
-      [
-        letter (first square)
-        index (subs square 1 2)
-        int-letter (int letter)
-        int-index (Integer/parseInt index)
-       ]
+      [letter (first square)
+       index (subs square 1 2)
+       int-letter (int letter)
+       int-index (Integer/parseInt index)]
     ;; código ascii da letra em int a == 97
     (def lower-letter (if (> (dec int-letter) 96)
                         (char (dec int-letter))
@@ -111,68 +74,61 @@
   ;; start with regular stuff
   ;; then implement capturing
   [state x] ;; gets a square in 'a1' format
-  (let [
-        free (free-adjacent-squares state x)
-        ]
+  (let
+      [free (free-adjacent-squares state x)]
     free))
 
 (defn move-piece
   ;; gets a piece-pos and a new-pos in key format
   ;; this should run only if the moves are legal
   [state piece-pos new-pos]
-  (let [
-        piece-color (piece-pos state)
+  (let [piece-color (piece-pos state)
         inc-prop (if (= piece-color 1)
                    inc
                    #(+ % 2))
         dec-prop (if (= piece-color 1)
                    dec
-                   #(- % 2))
-        ]
+                   #(- % 2))]
   (update (update state new-pos inc-prop) piece-pos dec-prop)))
 
 (defn someone-won
   [state]
   "todo")
 
+ ;; redundante
+(defn color-turn [turn]
+  (if (= (mod turn 2) 0)
+    "black"
+    "white"))
+;; redundante
+(defn current-color-code [color]
+  (if (= color "black")
+    2
+    1))
+
 (defn get-move-input [color state]
-  (let [
-        current-color-code (if (= color "black")
-                             2
-                             1)
-        ]
   (loop [square (read-line)]
-    (if (= current-color-code
-           ;; piece color of given square
+    ;; checa se a peça é do jogador atual
+    (if (= (current-color-code color)
+           ;; cor da peça na casa do estado do tabuleiro
            ((get-key-from-string square) state))
-      (let [legal-moves (list-legal-moves initial-table-state square)]
+      (let
+          [legal-moves (list-legal-moves state square)]
         (if (empty? legal-moves)
           (recur (read-line))
-          (print legal-moves)))
-      (recur (read-line))))
-    ))
-
-;; (get-move-input "black" initial-table-state)
-;; (get-move-input "white" initial-table-state)
+          (print legal-moves))) ;; chamar uma segunda função
+      (recur (read-line)))))
 
 (defn -main
+  ;; TODO montar isso com o loop/recur pq a performance fica melhor
   [in-state turn] ;; state
-  (let [
-        color-turn (if (= (mod turn 2) 0)
-                     "black"
-                     "white")
-        ]
-    (get-move-input color-turn in-state)
-    )
+  (loop
+      [state initial-table-state
+       turn 0]
+    (get-move-input (color-turn turn) state)
+    (recur initial-table-state (inc turn))))
 
-  (let [
-        move-from (get-key-from-string (read-line))
-        move-to (get-key-from-string (read-line))
-        out-state (move-piece in-state move-from move-to)
-        ]
-    (do (print out-state))
-    ;; TODO montar isso com o loop/recur pq a performance fica melhor
-    ))
+
 
 ;; DONE check turns
 ;; DONE validate entries and check for legal moves
