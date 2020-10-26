@@ -48,3 +48,7 @@ at https://www.gnu.org/software/classpath/license.html.
   :PROPERTIES:
   :CREATED: [2020-10-05 seg 17:08]
   :END:
+* TODO validar a entrada [[file:~/Desktop/projetos/checkers/src/checkers/moves.clj::(defn get-move-input \[current-move-code state\][get-move-input]]]
+  :PROPERTIES:
+  :CREATED: [2020-10-26 seg 17:36]
+  :END:
