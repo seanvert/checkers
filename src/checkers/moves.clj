@@ -85,14 +85,12 @@
 
 (defn someone-won
   [state]
-  "todo")
-
+  false)
 
 (defn color-turn [turn]
   (if (= (mod turn 2) 0)
     2
     1))
-
 
 (defn get-input-and-validate []
   (loop [input (read-line)]
@@ -106,21 +104,26 @@
 
 (defn get-move-input [current-move-code state]
   (loop [square (get-input-and-validate)]
+    (print square)
     ;; checa se a peça é do jogador atual
     (if (= current-move-code
            ;; cor da peça na casa do estado do tabuleiro
            ((get-key-from-string square) state))
-      (let
-          [legal-moves (list-legal-moves state square)]
+      (let [legal-moves (list-legal-moves state square)]
+        (print legal-moves)
         (if (empty? legal-moves)
-          (recur (read-line))
+          (recur (get-input-and-validate))
           (list square legal-moves)))
-      (recur (read-line)))))
+      (recur (get-input-and-validate)))))
 
-(defn select-move-from-list [list]
-  (do (print list)
-      (print "\n"))
-  (loop [move (Integer/parseInt (read-line))]
-    (if (< move (count list))
-      (nth list move)
-      (recur (Integer/parseInt (read-line))))))
+
+
+(defn select-move-from-list [lista]
+  ;; TODO refazer essa função para aceitar um item da lista ao invés
+  ;; de pegar o índice
+  (loop [move (get-input-and-validate)]
+    (let [key #{(get-key-from-string move)}
+          is-valid (some key lista)]
+      (if is-valid
+        (first key)
+        (recur (get-input-and-validate))))))
