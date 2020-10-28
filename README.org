@@ -1,36 +1,38 @@
 # checkers
 
-FIXME: description
+Jogo de damas básico para treinar IAs com o código comentado em português. 
 
-## Installation
+## Instalação
 
-Download from http://example.com/FIXME.
+Clona o rep e roda a -main do core.clj
+Não há dependências, por enquanto.
 
-## Usage
+## Uso
 
 FIXME: explanation
 
     $ java -jar checkers-0.1.0-standalone.jar [args]
 
-## Options
+## Opções
 
 FIXME: listing of options this app accepts.
 
-## Examples
+## Exemplos
 
 ...
 
 ### Bugs
 
+Ainda não implementei a captura de peças
 ...
 
 ### Any Other Sections
 ### That You Think
 ### Might be Useful
 
-## License
+## Licença - GPLv2
 
-Copyright © 2020 FIXME
+Copyright © 2020 Sean Uchida
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
@@ -51,4 +53,8 @@ at https://www.gnu.org/software/classpath/license.html.
 * TODO validar a entrada [[file:~/Desktop/projetos/checkers/src/checkers/moves.clj::(defn get-move-input \[current-move-code state\][get-move-input]]]
   :PROPERTIES:
   :CREATED: [2020-10-26 seg 17:36]
+  :END:
+* TODO implementar a captura das peças [[file:~/Desktop/projetos/checkers/src/checkers/moves.clj::(defn list-legal-moves][legal mvs]]
+  :PROPERTIES:
+  :CREATED: [2020-10-28 qua 17:54]
   :END:

@@ -23,7 +23,7 @@
          new-state (move-piece state piece-to-be-moved new-pos)
          finished? (someone-won state)]
       (if finished?
-        (print "end todo")
+        (print "end todo") ;; montar o resto da lógica para ver pontuação 
         (recur new-state (inc turn))))))
 
 ;; DONE check turns
