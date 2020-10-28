@@ -1,36 +1,36 @@
-# checkers
+* checkers
 
 Jogo de damas básico para treinar IAs com o código comentado em português. 
 
-## Instalação
+** Instalação
 
 Clona o rep e roda a -main do core.clj
 Não há dependências, por enquanto.
 
-## Uso
+** Uso
 
 FIXME: explanation
 
     $ java -jar checkers-0.1.0-standalone.jar [args]
 
-## Opções
+** Opções
 
 FIXME: listing of options this app accepts.
 
-## Exemplos
+** Exemplos
 
 ...
 
-### Bugs
+*** Bugs
 
 Ainda não implementei a captura de peças
 ...
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+*** Any Other Sections
+*** That You Think
+*** Might be Useful
 
-## Licença - GPLv2
+** Licença - GPLv2
 
 Copyright © 2020 Sean Uchida
 
