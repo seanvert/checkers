@@ -85,7 +85,13 @@
 
 (defn someone-won
   [state]
-  false)
+  (let [piece-set (reduce (fn ([con [k v]] (conj con v)))
+                          #{} state)
+        are-there-black-pieces? (contains? piece-set 2)
+        are-there-white-pieces? (contains? piece-set 1)]
+    (if (and are-there-black-pieces? are-there-white-pieces?)
+      false
+      true)))
 
 (defn color-turn [turn]
   (if (= (mod turn 2) 0)
@@ -115,8 +121,6 @@
           (recur (get-input-and-validate))
           (list square legal-moves)))
       (recur (get-input-and-validate)))))
-
-
 
 (defn select-move-from-list [lista]
   ;; TODO refazer essa função para aceitar um item da lista ao invés
